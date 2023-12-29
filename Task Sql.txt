@@ -1,0 +1,299 @@
+Q 1.
+
+Enter password: ****
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 60
+Server version: 8.0.35 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| guviemp            |
+| information_schema |
+| jat                |
+| mysql              |
+| performance_schema |
+| sakila             |
+| sys                |
+| traintest          |
+| world              |
++--------------------+
+9 rows in set (0.00 sec)
+
+mysql> create database task;
+Query OK, 1 row affected (0.02 sec)
+
+mysql> use task;
+Database changed
+mysql> create table Empl(
+    -> empno int auto_increment primary key,
+    -> empname varchar(20) not null,
+    -> job varchar(20) not null,
+    -> mgr int,
+    -> hiredate DATE,
+    -> sal decimal(10,2) not null,
+    -> comm decimal(10,2),
+    -> deptno int);
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> insert into Empl
+    -> (empno,empname,job,mgr,hiredate,sal,comm,deptno) values
+    -> (8369,'SMITH','CLERK',8902,'1990-12-18',800.00,NULL,20),
+    -> (8499,'ANYA','SALESMAN',8698,'1991-02-20',1600.00,300.00,30);
+Query OK, 2 rows affected (0.01 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> insert into Empl
+    -> (empno,empname,job,mgr,hiredate,sal,comm,deptno) values
+    -> (8521,'SETH','SALESMAN',8698,'1991-02-22',1250.00,500.00,30),
+    -> (8566,'MAHADEVAN','MANAGER',8839,'1991-04-02',2985.00,NULL,20),
+    -> (8698,'BINA','MANAGER',8839,'1991-05-01',2850.00,NULL,30),
+    -> (8654,'MOMIN','SALESMAN',8698,'1991-09-28',1250.00,1400.00,30),
+    -> (8882,'SHIVANSH','MANAGER',8839,'1991-06-09',2450.00,NULL,10),
+    -> (8888,'SCOTT','ANALYST',8566,'1992-12-09',3000.00,NULL,20),
+    -> (8839,'AMIR','PRESIDENT',NULL,'1991-11-18',5000.00,NULL,10),
+    -> (8844,'KULDEEP','SALESMAN',8698,'1991-09-08',1500.00,0.00,30);
+Query OK, 8 rows affected (0.02 sec)
+Records: 8  Duplicates: 0  Warnings: 0
+
+mysql> select * from Empl;
++-------+-----------+-----------+------+------------+---------+---------+--------+
+| empno | empname   | job       | mgr  | hiredate   | sal     | comm    | deptno |
++-------+-----------+-----------+------+------------+---------+---------+--------+
+|  8369 | SMITH     | CLERK     | 8902 | 1990-12-18 |  800.00 |    NULL |     20 |
+|  8499 | ANYA      | SALESMAN  | 8698 | 1991-02-20 | 1600.00 |  300.00 |     30 |
+|  8521 | SETH      | SALESMAN  | 8698 | 1991-02-22 | 1250.00 |  500.00 |     30 |
+|  8566 | MAHADEVAN | MANAGER   | 8839 | 1991-04-02 | 2985.00 |    NULL |     20 |
+|  8654 | MOMIN     | SALESMAN  | 8698 | 1991-09-28 | 1250.00 | 1400.00 |     30 |
+|  8698 | BINA      | MANAGER   | 8839 | 1991-05-01 | 2850.00 |    NULL |     30 |
+|  8839 | AMIR      | PRESIDENT | NULL | 1991-11-18 | 5000.00 |    NULL |     10 |
+|  8844 | KULDEEP   | SALESMAN  | 8698 | 1991-09-08 | 1500.00 |    0.00 |     30 |
+|  8882 | SHIVANSH  | MANAGER   | 8839 | 1991-06-09 | 2450.00 |    NULL |     10 |
+|  8888 | SCOTT     | ANALYST   | 8566 | 1992-12-09 | 3000.00 |    NULL |     20 |
++-------+-----------+-----------+------+------------+---------+---------+--------+
+10 rows in set (0.00 sec)
+
+mysql> select ename and sal from Empl
+    -> where sal>=2200.00;
+ERROR 1054 (42S22): Unknown column 'ename' in 'field list'
+mysql> select empname and sal from Empl
+    -> where sal>=2200;
++-----------------+
+| empname and sal |
++-----------------+
+|               0 |
+|               0 |
+|               0 |
+|               0 |
+|               0 |
++-----------------+
+5 rows in set, 5 warnings (0.02 sec)
+
+mysql> select * from Empl
+    -> where sal>=2200;
++-------+-----------+-----------+------+------------+---------+------+--------+
+| empno | empname   | job       | mgr  | hiredate   | sal     | comm | deptno |
++-------+-----------+-----------+------+------------+---------+------+--------+
+|  8566 | MAHADEVAN | MANAGER   | 8839 | 1991-04-02 | 2985.00 | NULL |     20 |
+|  8698 | BINA      | MANAGER   | 8839 | 1991-05-01 | 2850.00 | NULL |     30 |
+|  8839 | AMIR      | PRESIDENT | NULL | 1991-11-18 | 5000.00 | NULL |     10 |
+|  8882 | SHIVANSH  | MANAGER   | 8839 | 1991-06-09 | 2450.00 | NULL |     10 |
+|  8888 | SCOTT     | ANALYST   | 8566 | 1992-12-09 | 3000.00 | NULL |     20 |
++-------+-----------+-----------+------+------------+---------+------+--------+
+5 rows in set (0.00 sec)
+
+mysql> select * from Empl
+    -> where comm NULL;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'NULL' at line 2
+mysql> select * from Empl
+    -> where comm is NULL;
++-------+-----------+-----------+------+------------+---------+------+--------+
+| empno | empname   | job       | mgr  | hiredate   | sal     | comm | deptno |
++-------+-----------+-----------+------+------------+---------+------+--------+
+|  8369 | SMITH     | CLERK     | 8902 | 1990-12-18 |  800.00 | NULL |     20 |
+|  8566 | MAHADEVAN | MANAGER   | 8839 | 1991-04-02 | 2985.00 | NULL |     20 |
+|  8698 | BINA      | MANAGER   | 8839 | 1991-05-01 | 2850.00 | NULL |     30 |
+|  8839 | AMIR      | PRESIDENT | NULL | 1991-11-18 | 5000.00 | NULL |     10 |
+|  8882 | SHIVANSH  | MANAGER   | 8839 | 1991-06-09 | 2450.00 | NULL |     10 |
+|  8888 | SCOTT     | ANALYST   | 8566 | 1992-12-09 | 3000.00 | NULL |     20 |
++-------+-----------+-----------+------+------------+---------+------+--------+
+6 rows in set (0.00 sec)
+
+mysql> select * from Empl
+    -> ;
++-------+-----------+-----------+------+------------+---------+---------+--------+
+| empno | empname   | job       | mgr  | hiredate   | sal     | comm    | deptno |
++-------+-----------+-----------+------+------------+---------+---------+--------+
+|  8369 | SMITH     | CLERK     | 8902 | 1990-12-18 |  800.00 |    NULL |     20 |
+|  8499 | ANYA      | SALESMAN  | 8698 | 1991-02-20 | 1600.00 |  300.00 |     30 |
+|  8521 | SETH      | SALESMAN  | 8698 | 1991-02-22 | 1250.00 |  500.00 |     30 |
+|  8566 | MAHADEVAN | MANAGER   | 8839 | 1991-04-02 | 2985.00 |    NULL |     20 |
+|  8654 | MOMIN     | SALESMAN  | 8698 | 1991-09-28 | 1250.00 | 1400.00 |     30 |
+|  8698 | BINA      | MANAGER   | 8839 | 1991-05-01 | 2850.00 |    NULL |     30 |
+|  8839 | AMIR      | PRESIDENT | NULL | 1991-11-18 | 5000.00 |    NULL |     10 |
+|  8844 | KULDEEP   | SALESMAN  | 8698 | 1991-09-08 | 1500.00 |    0.00 |     30 |
+|  8882 | SHIVANSH  | MANAGER   | 8839 | 1991-06-09 | 2450.00 |    NULL |     10 |
+|  8888 | SCOTT     | ANALYST   | 8566 | 1992-12-09 | 3000.00 |    NULL |     20 |
++-------+-----------+-----------+------+------------+---------+---------+--------+
+10 rows in set (0.00 sec)
+
+mysql> select * from Empl
+    -> where sal<2500 and sal>4000;
+Empty set (0.00 sec)
+
+mysql> select * from Empl
+    -> where sal<2500;
++-------+----------+----------+------+------------+---------+---------+--------+
+| empno | empname  | job      | mgr  | hiredate   | sal     | comm    | deptno |
++-------+----------+----------+------+------------+---------+---------+--------+
+|  8369 | SMITH    | CLERK    | 8902 | 1990-12-18 |  800.00 |    NULL |     20 |
+|  8499 | ANYA     | SALESMAN | 8698 | 1991-02-20 | 1600.00 |  300.00 |     30 |
+|  8521 | SETH     | SALESMAN | 8698 | 1991-02-22 | 1250.00 |  500.00 |     30 |
+|  8654 | MOMIN    | SALESMAN | 8698 | 1991-09-28 | 1250.00 | 1400.00 |     30 |
+|  8844 | KULDEEP  | SALESMAN | 8698 | 1991-09-08 | 1500.00 |    0.00 |     30 |
+|  8882 | SHIVANSH | MANAGER  | 8839 | 1991-06-09 | 2450.00 |    NULL |     10 |
++-------+----------+----------+------+------------+---------+---------+--------+
+6 rows in set (0.00 sec)
+
+mysql> select * from Empl;
++-------+-----------+-----------+------+------------+---------+---------+--------+
+| empno | empname   | job       | mgr  | hiredate   | sal     | comm    | deptno |
++-------+-----------+-----------+------+------------+---------+---------+--------+
+|  8369 | SMITH     | CLERK     | 8902 | 1990-12-18 |  800.00 |    NULL |     20 |
+|  8499 | ANYA      | SALESMAN  | 8698 | 1991-02-20 | 1600.00 |  300.00 |     30 |
+|  8521 | SETH      | SALESMAN  | 8698 | 1991-02-22 | 1250.00 |  500.00 |     30 |
+|  8566 | MAHADEVAN | MANAGER   | 8839 | 1991-04-02 | 2985.00 |    NULL |     20 |
+|  8654 | MOMIN     | SALESMAN  | 8698 | 1991-09-28 | 1250.00 | 1400.00 |     30 |
+|  8698 | BINA      | MANAGER   | 8839 | 1991-05-01 | 2850.00 |    NULL |     30 |
+|  8839 | AMIR      | PRESIDENT | NULL | 1991-11-18 | 5000.00 |    NULL |     10 |
+|  8844 | KULDEEP   | SALESMAN  | 8698 | 1991-09-08 | 1500.00 |    0.00 |     30 |
+|  8882 | SHIVANSH  | MANAGER   | 8839 | 1991-06-09 | 2450.00 |    NULL |     10 |
+|  8888 | SCOTT     | ANALYST   | 8566 | 1992-12-09 | 3000.00 |    NULL |     20 |
++-------+-----------+-----------+------+------------+---------+---------+--------+
+10 rows in set (0.00 sec)
+
+mysql> select * from Empl
+    -> where job not like '%MANAGER%';
++-------+---------+-----------+------+------------+---------+---------+--------+
+| empno | empname | job       | mgr  | hiredate   | sal     | comm    | deptno |
++-------+---------+-----------+------+------------+---------+---------+--------+
+|  8369 | SMITH   | CLERK     | 8902 | 1990-12-18 |  800.00 |    NULL |     20 |
+|  8499 | ANYA    | SALESMAN  | 8698 | 1991-02-20 | 1600.00 |  300.00 |     30 |
+|  8521 | SETH    | SALESMAN  | 8698 | 1991-02-22 | 1250.00 |  500.00 |     30 |
+|  8654 | MOMIN   | SALESMAN  | 8698 | 1991-09-28 | 1250.00 | 1400.00 |     30 |
+|  8839 | AMIR    | PRESIDENT | NULL | 1991-11-18 | 5000.00 |    NULL |     10 |
+|  8844 | KULDEEP | SALESMAN  | 8698 | 1991-09-08 | 1500.00 |    0.00 |     30 |
+|  8888 | SCOTT   | ANALYST   | 8566 | 1992-12-09 | 3000.00 |    NULL |     20 |
++-------+---------+-----------+------+------------+---------+---------+--------+
+7 rows in set (0.00 sec)
+
+mysql> select empname from Empl
+    -> where empname like '%  a%';
+Empty set (0.00 sec)
+
+mysql> select empname from Empl
+    -> where empname like '%t';
++---------+
+| empname |
++---------+
+| SCOTT   |
++---------+
+1 row in set (0.00 sec)
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Q 2.
+
+package org.javatodatabase;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class Taskjdbc {
+
+	public static void main(String[] args) {
+		// Database connection details
+				String dburl="jdbc:mysql://localhost:3306/guviemp";
+				
+				//username and password of database
+				String user="root";
+				String password="root";
+				
+				try {
+					//establishing connection with database
+					Connection conn=DriverManager.getConnection(dburl, user, password);
+					
+					//create a statement object for sending a data sql query
+					Statement stmt=conn.createStatement();
+					
+					//insert the data 
+					int[] empcode= {101,102,103,104,105};
+					String[] empname= {"Jenny","Jacky","Joe","John","Shameer"};
+					int[] empage= {25,30,20,40,25};
+					double[] esalary= {10000,20000,40000,80000,90000};
+					
+					//insert multiple data to table database
+					for(int i=0;i<empcode.length;i++) {
+						//create sql query
+						String create="create table name("
+								+ "empcode int,"
+								+ "empname varchar(20),"
+								+ "empage int,"
+								+ "esalary decimal);";
+						
+						String sql="INSERT INTO name(empcode,empname,empage,esalary) values("+empcode[i]+",'"+empname[i]+"',"+empage[i]+","+esalary[i]+")";
+						
+						//execute query
+						//execute the query
+						stmt.executeUpdate(create);
+						int result1=stmt.executeUpdate(sql);
+						
+						//check if the data is inserted or not
+						if(result1>0) {
+							System.out.println(result1+" rows inserted into table");
+						}else {
+							System.out.println("No rows affected...");
+						}
+					
+					}
+						
+						//close the connection
+						conn.close();
+					
+				} catch (SQLException e) {
+					e.printStackTrace();
+					
+				}
+
+	}
+
+}
+
+
+Output:
+
+1 rows inserted into table
+1 rows inserted into table
+1 rows inserted into table
+1 rows inserted into table
+1 rows inserted into table
+
+empcode	empname	empage	esalary
+101	Jenny	25	10000
+102	Jacky	30	20000
+103	Joe	20	40000
+104	John	40	80000
+105	Shameer	25	90000
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
